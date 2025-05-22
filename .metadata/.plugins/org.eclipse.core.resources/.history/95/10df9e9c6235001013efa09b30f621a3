@@ -1,0 +1,128 @@
+package utilities;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+public class ExcelUtils {
+	
+	public FileInputStream fi;
+	public FileOutputStream fo;
+	public XSSFWorkbook wb;
+	public XSSFSheet ws;
+	public XSSFRow row;
+	public XSSFCell cell;
+	public CellStyle style;
+	
+	public int getRowCount(String excelFile, String excelSheet) throws IOException
+	{
+		fi=new FileInputStream(excelFile);
+		wb=new XSSFWorkbook(fi);
+		ws=wb.getSheet(excelSheet);
+		int tot_row=ws.getLastRowNum();
+		wb.close();
+		fi.close();
+		return tot_row;
+	}
+	
+	public int getCellCount(String excelFile, String excelSheet) throws IOException 
+	{
+		fi=new FileInputStream(excelFile);
+		wb=new XSSFWorkbook(fi);
+		ws=wb.getSheet(excelSheet);
+		int tot_cell=ws.getRow(0).getLastCellNum();
+		wb.close();
+		fi.close();
+		return tot_cell;
+	}
+	
+	public String getCellData(String excelFile, String excelSheet, int rownum, int cellnum) throws IOException 
+	{
+		fi=new FileInputStream(excelFile);
+		wb=new XSSFWorkbook(fi);
+		ws=wb.getSheet(excelSheet);
+		row=ws.getRow(rownum);
+		cell=row.getCell(cellnum);
+		wb.close();
+		fi.close();
+		
+		String data;
+		try
+		{
+			//return cell.toString(); or
+			DataFormatter df=new DataFormatter();
+			data=df.formatCellValue(cell);
+		}
+		catch(Exception e)
+		{
+			data="";
+		}
+		return data;
+	}
+	
+	public void setCellData(String excelFile, String excelSheet, int rownum, int cellnum, String data) throws IOException 
+	{	
+		//reading the data from same sheet
+		fi=new FileInputStream(excelFile);
+		wb=new XSSFWorkbook(fi);
+		ws=wb.getSheet(excelSheet);
+		row=ws.getRow(rownum);
+		
+		//writing the data in the same sheet
+		row.createCell(cellnum).setCellValue(data);
+		fo=new FileOutputStream(excelFile);
+		wb.write(fo);
+		wb.close();
+		fi.close();
+		fo.close();
+	}
+	
+	public void fillGreenColour(String excelFile, String excelSheet, int rownum, int cellnum) throws IOException 
+	{
+		fi=new FileInputStream(excelFile);
+		wb=new XSSFWorkbook(fi);
+		ws=wb.getSheet(excelSheet);
+		row=ws.getRow(rownum);
+		cell=row.getCell(cellnum);
+		
+		style =wb.createCellStyle();
+		style.setFillBackgroundColor(IndexedColors.BRIGHT_GREEN.getIndex());
+		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		
+		cell.setCellStyle(style);
+		fo=new FileOutputStream(excelFile);
+		wb.write(fo);
+		wb.close();
+		fi.close();
+		fo.close();
+	}
+	
+	public void fillRedColour(String excelFile, String excelSheet, int rownum, int cellnum) throws IOException 
+	{
+		fi=new FileInputStream(excelFile);
+		wb=new XSSFWorkbook(fi);
+		ws=wb.getSheet(excelSheet);
+		row=ws.getRow(rownum);
+		cell=row.getCell(cellnum);
+		
+		style =wb.createCellStyle();
+		style.setFillBackgroundColor(IndexedColors.RED.getIndex());
+		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		
+		cell.setCellStyle(style);
+		fo=new FileOutputStream(excelFile);
+		wb.write(fo);
+		wb.close();
+		fi.close();
+		fo.close();
+	}
+}

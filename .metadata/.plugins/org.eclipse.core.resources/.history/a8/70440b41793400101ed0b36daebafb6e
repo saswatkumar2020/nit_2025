@@ -1,0 +1,54 @@
+package package1;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+//Excel---->Workbook---->Sheet----->Row----->Cells
+public class WrittingDataIntoExcel {
+	
+	public static void main(String[] args) throws IOException
+	{
+		//File(WriteFile.xlsx) is created 
+		FileOutputStream f2=new FileOutputStream(System.getProperty("user.dir")+"\\testData\\WriteFile.xlsx");
+		
+		//Create a new workbook
+		XSSFWorkbook wb=new XSSFWorkbook();
+		
+		//Create a sheet
+		XSSFSheet st=wb.createSheet("Sheet1");
+		
+		//Create a row and create the cell enter the data into the cells
+		XSSFRow r1=st.createRow(0);
+		r1.createCell(0).setCellValue("Sl No.");
+		r1.createCell(1).setCellValue("Language");
+		r1.createCell(2).setCellValue("Testing");
+		
+		XSSFRow r2=st.createRow(1);
+		r2.createCell(0).setCellValue(1);
+		r2.createCell(1).setCellValue("Java");
+		r2.createCell(2).setCellValue("Automation");
+		
+		XSSFRow r3=st.createRow(2);
+		r3.createCell(0).setCellValue(2);
+		r3.createCell(1).setCellValue("Python");
+		r3.createCell(2).setCellValue("Automation");
+		
+		//attach workbook to file
+		wb.write(f2);
+		System.out.println("Excel File Created");
+		
+		//row count
+		System.out.println("Total Row : "+st.getLastRowNum());
+		
+		//column or cell count
+		System.out.println("Total Column : "+st.getRow(0).getLastCellNum());
+		
+		wb.close();
+		f2.close();
+	}
+
+}

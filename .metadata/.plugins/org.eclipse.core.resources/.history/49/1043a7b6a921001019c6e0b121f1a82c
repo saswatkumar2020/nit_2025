@@ -1,0 +1,8 @@
+package chkboxes_radiobtn_automation;
+
+public class CheckBox2 {
+	public static void main(String[] args) {
+		
+	}
+
+}

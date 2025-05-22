@@ -1,0 +1,26 @@
+package utilities;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+public class ReadingPropertiesFile {
+	
+	public static void main(String[] args) throws IOException
+	{
+		//location of properties file 
+		FileInputStream file=new FileInputStream(System.getProperty("user.dir")+"\\testData\\config.properties"); 
+		
+		//Loading properties file 
+		Properties propertiesobj=new Properties(); 
+		propertiesobj.load(file); 
+		
+		//Reading data from properties file 
+		String url=propertiesobj.getProperty("appurl"); 
+		String email=propertiesobj.getProperty("email"); 
+		String pwd=propertiesobj.getProperty("password"); 
+		String orid=propertiesobj.getProperty("orderid"); 
+		String custid=propertiesobj.getProperty("customerid"); 
+		System.out.println(url+"\n"+email+"\n"+pwd+"\n"+orid+"\n"+custid);
+	}
+}

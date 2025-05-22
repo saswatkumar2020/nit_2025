@@ -1,0 +1,53 @@
+package package1;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+//Excel File--->Workbook--->Sheets--->Rows--->Cells
+
+public class ReadingDataFromExcel {
+	
+	public static void main(String[] args) throws IOException
+	{
+		String excelFile="C:\\NIT_2025\\org.nareshit.data_driven_excel\\testData\\Maturityamount.xlsx";
+		
+		//Open the file in reading mode
+		FileInputStream f1=new FileInputStream(excelFile);
+		
+		//Open the workbook from excel file
+		XSSFWorkbook wb=new XSSFWorkbook(f1);
+		
+		//Get the sheet1 from workbook
+		XSSFSheet st= wb.getSheet("Sheet1");		//XSSFSheet st= wb.getSheetAt(0);
+		
+		//Total number of rows
+		int row_count = st.getLastRowNum();
+		System.out.println("Total Rows:"+row_count);	//According to Excel Rows counting from 0
+		
+		//Total number of columns
+		//From the sheet extract one particular row and extract the cell
+		int column_count=st.getRow(0).getLastCellNum();
+		System.out.println("Total Columns:"+column_count);		//According to Excel Columns or Cells counting from 1
+		
+		for(int i=0;i<=row_count;i++)
+		{
+			XSSFRow current_row=st.getRow(i);
+			//System.out.println(current_row.toString());
+			
+			for(int j=0;j<=column_count;j++)
+			{
+				XSSFCell current_column=current_row.getCell(j);
+				System.out.print(current_column+"\t");
+			}
+			System.out.println();
+		}
+		wb.close();
+		f1.close();
+	}
+
+}

@@ -1,0 +1,28 @@
+package package1;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+//Excel---->Workbook---->Sheet----->Row----->Cells
+public class WrittingDataIntoExcel {
+	
+	public static void main(String[] args) throws IOException
+	{
+		//File(WriteFile.xlsx) is created 
+		FileOutputStream f2=new FileOutputStream(System.getProperty("user.dir")+"\\testData\\WriteFile.xlsx");
+		
+		//Create a new workbook
+		XSSFWorkbook wb=new XSSFWorkbook();
+		
+		//Create a sheet
+		XSSFSheet st=wb.createSheet("Sheet1");
+		
+		//Create a row and create the cell enter the data into the cells
+		wb.close();
+		f2.close();
+	}
+
+}

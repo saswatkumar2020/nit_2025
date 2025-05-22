@@ -1,0 +1,41 @@
+package chkboxes_radiobtn_automation;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class CheckBox1 {
+	public static void main(String[] args)
+	{
+		WebDriver driver=new ChromeDriver();
+		//driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		WebDriverWait wait=new WebDriverWait(driver, Duration.ofSeconds(10));
+		driver.manage().window().maximize();
+		driver.get("https://www.irctc.co.in/nget/train-search");
+		
+		//First CheckBox
+		WebElement chkbox1=driver.findElement(By.xpath("//label[text()='Person With Disability Concession']"));
+		chkbox1.click();
+		WebElement okbtn=driver.findElement(By.xpath("//span[text()='OK']"));
+		okbtn.click();
+		
+		//Second CheckBox
+		WebElement chkbox2=driver.findElement(By.xpath("//label[text()='Flexible With Date']"));
+		chkbox2.click();
+		//Third Checkbox
+		WebElement chkbox3=driver.findElement(By.xpath("//label[text()='Train with Available Berth ']"));
+		chkbox3.click();
+		
+		//Fourth CheckBox
+		WebElement chkbox4=driver.findElement(By.xpath("//label[text()='Railway Pass Concession']"));
+		chkbox4.click();
+		okbtn.click();
+		
+		driver.quit();		
+	}
+
+}

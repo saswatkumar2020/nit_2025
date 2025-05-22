@@ -1,0 +1,51 @@
+package stepDefinitionSingle;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+public class LoginStepSingle extends Hooks{
+	
+	public LoginStepSingle(WebDriver driver) {
+		super(driver);
+		// TODO Auto-generated constructor stub
+	}
+
+	WebDriver driver;
+	Hooks hk=new Hooks(driver);
+	
+	@Given("user is on Login page")
+	public void user_is_on_login_page() {
+//		driver = new ChromeDriver();
+//		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+//		driver.manage().window().maximize();
+		hk.driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+	}
+
+	@When("user enter valid credentials\\(username: {string},password: {string})")
+	public void user_enter_valid_credentials_username_password(String uname, String pword) {
+		hk.driver.findElement(By.xpath("//input[@name='username']")).sendKeys(uname);
+		hk.driver.findElement(By.xpath("//input[@name='password']")).sendKeys(pword);
+	}
+
+	@When("click on Login button")
+	public void click_on_login_button() {
+		hk.driver.findElement(By.xpath("//button[text()=' Login ']")).click();
+	}
+
+	@Then("user is navigated to Home page")
+	public void user_is_navigated_to_home_page() throws InterruptedException {
+		System.out.println(hk.driver.getCurrentUrl());
+		Thread.sleep(3000);
+	}
+
+//	@Then("Close the browser")
+//	public void close_the_browser() {
+//		driver.close();
+//	}
+
+
+}

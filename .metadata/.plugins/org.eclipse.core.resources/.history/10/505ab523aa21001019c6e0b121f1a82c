@@ -1,0 +1,9 @@
+package chkboxes_radiobtn_automation;
+import org.openqa.selenium.WebDriver;
+
+
+public class CheckBox2 {
+	public static void main(String[] args) {
+		WebDriver driver=new ChromeDriver();
+	}
+}

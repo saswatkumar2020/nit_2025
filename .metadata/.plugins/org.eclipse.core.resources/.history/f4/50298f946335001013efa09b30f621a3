@@ -1,0 +1,84 @@
+package package1;
+
+import java.io.IOException;
+import java.time.Duration;
+import java.util.ArrayList;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+import utilities.ExcelUtils;
+
+public class FDCalculator {
+
+	public static void main(String[] args) throws IOException, InterruptedException {
+		
+		String filePath=System.getProperty("user.dir")+"\\testData\\Maturityamount.xlsx";
+		
+		WebDriver driver=new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		driver.manage().window().maximize();
+		driver.get("https://www.moneycontrol.com/fixed-income/calculator/state-bank-of-india-sbi/fixed-deposit-calculator-SBI-BSB001.html");
+		WebElement push_ntf=driver.findElement(By.xpath("//*[text()='No thanks']"));
+		push_ntf.click();
+		
+		ExcelUtils eu=new ExcelUtils();
+		
+		for(int r=1;r<=eu.getRowCount(filePath, "Sheet1");r++)
+		{
+			WebElement principal=driver.findElement(By.id("principal"));
+			WebElement roi=driver.findElement(By.id("interest"));
+			WebElement period=driver.findElement(By.id("tenure"));
+			WebElement time=driver.findElement(By.id("tenurePeriod"));
+			WebElement frequency=driver.findElement(By.id("frequency"));
+			WebElement calculate_btn=driver.findElement(By.xpath("(//*[@class='CTR PT15']/a)[1]"));
+			WebElement clear_btn=driver.findElement(By.xpath("(//*[@class='CTR PT15']/a)[2]"));
+			
+			ArrayList<String> ar = new ArrayList<String>();
+			for(int c=0;c<eu.getCellCount(filePath, "Sheet1");c++)
+			{
+				//read data from excel sheet and put it in arraylist
+				String data=eu.getCellData(filePath, "Sheet1", r, c);
+				ar.add(data);
+			}
+			
+			//pass the above data into application
+			principal.sendKeys(ar.get(0));
+			roi.sendKeys(ar.get(1));
+			period.sendKeys(ar.get(2));
+			Select ob=new Select(time);
+			ob.selectByVisibleText(ar.get(3));
+			Select ob2=new Select(frequency);
+			ob2.selectByVisibleText(ar.get(4));
+			
+			calculate_btn.click();
+			Thread.sleep(3000);
+			
+			//Validation
+			String act_maturity_amount=driver.findElement(By.xpath("//*[@id='resp_matval']//strong")).getText();
+			String exp_maturity_amount=ar.get(5);
+			if(Double.parseDouble(exp_maturity_amount)==Double.parseDouble(act_maturity_amount))
+			{
+				System.out.println("Passed");
+				eu.setCellData(filePath, "Sheet1", r, 7, "passed");
+				eu.fillGreenColour(filePath, "Sheet1", r, 7);
+			}
+			else
+			{
+				System.out.println("Failed");
+				eu.setCellData(filePath, "Sheet1", r, 7, "failed");
+				eu.fillGreenColour(filePath, "Sheet1", r, 7);
+			}
+			clear_btn.click();
+		}
+		
+		
+	
+		
+		
+	}
+
+}

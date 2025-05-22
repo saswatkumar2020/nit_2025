@@ -1,0 +1,48 @@
+package package1;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class FDCalculator {
+
+	public static void main(String[] args) {
+		
+		WebDriver driver=new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		driver.manage().window().maximize();
+		driver.get("https://www.moneycontrol.com/fixed-income/calculator/state-bank-of-india-sbi/fixed-deposit-calculator-SBI-BSB001.html");
+		
+		WebElement principal=driver.findElement(By.id("principal"));
+		WebElement roi=driver.findElement(By.id("interest"));
+		WebElement period=driver.findElement(By.id("tenure"));
+		WebElement days=driver.findElement(By.id("tenurePeriod"));
+		WebElement frequency=driver.findElement(By.id("frequency"));
+		WebElement calculate_btn=driver.findElement(By.xpath("(//*[@class='CTR PT15']/a)[1]"));
+		WebElement clear_btn=driver.findElement(By.xpath("(//*[@class='CTR PT15']/a)[2]"));
+		WebElement push_ntf=driver.findElement(By.xpath("//*[text()='No thanks']"));
+		
+		
+		principal.sendKeys("20000");
+		roi.sendKeys("10");
+		period.sendKeys("1");
+		Select ob=new Select(days);
+		ob.selectByContainsVisibleText("year(s)");
+		Select ob2=new Select(frequency);
+		ob2.selectByContainsVisibleText("Simple Interest");
+		
+		
+		JavascriptExecutor js=(JavascriptExecutor)driver;
+		js.executeScript("arguments[0].click()", push_ntf);
+		js.executeScript("arguments[0].click()", calculate_btn);
+		js.executeScript("arguments[0].click()", clear_btn);
+		
+		
+	}
+
+}

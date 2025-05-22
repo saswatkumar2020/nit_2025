@@ -1,0 +1,13 @@
+Feature: feature to test Login Functionality
+
+  Scenario Outline: verify to check Login is successful with valid credentials
+    Given user is on Login page
+    When user enter valid credentials <username> and <password>
+    And click on Login button
+    Then user is navigated to Home page
+
+    Examples: 
+      | username | password |
+      | Admin    | admin123 |
+      | Admin    | admin123 |
+			| Admin | admin123|
